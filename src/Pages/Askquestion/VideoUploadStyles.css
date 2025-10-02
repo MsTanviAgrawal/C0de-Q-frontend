@@ -1,0 +1,106 @@
+/* Video Upload Styles */
+.video-selected {
+  color: #28a745;
+  font-weight: bold;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.otp-section {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.otp-section h4 {
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.otp-section p {
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.email-otp-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.email-otp-block input {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.email-otp-block button {
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.email-otp-block button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.email-otp-block button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.otp-error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.otp-success {
+  color: #28a745;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.upload-section {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.upload-video-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.upload-video-btn:hover {
+  background: #218838;
+}
+
+@media (max-width: 768px) {
+  .email-otp-block {
+    gap: 8px;
+  }
+  
+  .email-otp-block input,
+  .email-otp-block button {
+    font-size: 13px;
+    padding: 8px;
+  }
+}
