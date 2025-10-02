@@ -15,12 +15,8 @@ const LanguageSwitcher = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [verificationType, setVerificationType] = useState('');
-  // Force simple switch to avoid 404/CORS errors until backend endpoints are available
   const [useSimpleSwitch, setUseSimpleSwitch] = useState(true);
-  // Feature-flag to avoid PUT /user/language and related CORS errors
   const ENABLE_SAVE_PREF = false;
-
-  // Fix Redux state name - use consistent naming
   const User = useSelector((state) => state.currentuserreducer);
   const userId = User?.result?._id;
 
@@ -33,18 +29,15 @@ const LanguageSwitcher = () => {
     { code: 'zh', name: '中文', flag: '🇨🇳' }
   ];
 
-  // Simple language switch without OTP (for immediate functionality)
   const handleSimpleLanguageSwitch = (languageCode) => {
     if (languageCode === i18n.language) {
       setMessage('This language is already selected');
       return;
     }
 
-    // Change language immediately
     i18n.changeLanguage(languageCode);
     localStorage.setItem('preferredLanguage', languageCode);
     
-    // Update user preference in database if logged in
     if (userId && ENABLE_SAVE_PREF) {
       updateUserLanguagePreference(languageCode);
     }
@@ -53,7 +46,6 @@ const LanguageSwitcher = () => {
     setShowModal(false);
   };
 
-  // Update user language preference in database
   const updateUserLanguagePreference = async (languageCode) => {
     try {
       await axios.put(`http://localhost:5001/user/language/${userId}`, {
@@ -61,12 +53,10 @@ const LanguageSwitcher = () => {
       });
     } catch (error) {
       console.warn('Could not save language preference to database:', error);
-      // Don't show error to user as language still works locally
     }
   };
 
   const handleLanguageSelect = async (languageCode) => {
-    // For now, use simple switch. OTP can be enabled later if needed
     if (useSimpleSwitch || !userId) {
       handleSimpleLanguageSwitch(languageCode);
       return;
@@ -95,7 +85,6 @@ const LanguageSwitcher = () => {
         setShowModal(false);
         setShowMobileModal(true);
       } else {
-        // Fallback to simple switch if OTP service fails
         console.warn('OTP service failed, using simple switch:', error);
         handleSimpleLanguageSwitch(languageCode);
       }
@@ -112,8 +101,7 @@ const LanguageSwitcher = () => {
 
     setLoading(true);
     try {
-      // Disabled until backend endpoint is available
-      // const response = await axios.post(`${API_BASE}/language/verify-switch`, { userId, targetLanguage: selectedLanguage, otp });
+     
       const response = { data: { message: 'Verification skipped (frontend-only mode)' } };
 
       setMessage(response.data.message);
@@ -138,8 +126,6 @@ const LanguageSwitcher = () => {
 
     setLoading(true);
     try {
-      // Disabled until backend endpoint is available
-      // await axios.post(`${API_BASE}/user/update-mobile`, { userId, mobileNumber });
       setShowMobileModal(false);
       setShowOTPModal(true);
       setMessage('Mobile updated. Please verify OTP.');
@@ -161,7 +147,6 @@ const LanguageSwitcher = () => {
     }
   }, [message]);
 
-  // Load user's preferred language on component mount
   useEffect(() => {
     const savedLanguage = localStorage.getItem('preferredLanguage');
     if (savedLanguage && savedLanguage !== i18n.language) {
@@ -180,7 +165,6 @@ const LanguageSwitcher = () => {
         <span className="lang-code">{getCurrentLanguage().code.toUpperCase()}</span>
       </button>
 
-      {/* Language Selection Modal */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -193,7 +177,6 @@ const LanguageSwitcher = () => {
                 <p>{t('language.currentLanguage')}: {getCurrentLanguage().name}</p>
               </div>
               
-              {/* Simple Switch Toggle */}
               <div className="switch-mode" style={{marginBottom: '15px', padding: '10px', background: '#f8f9fa', borderRadius: '6px'}}>
                 <label style={{display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer'}}>
                   <input 
@@ -223,7 +206,6 @@ const LanguageSwitcher = () => {
         </div>
       )}
 
-      {/* OTP Verification Modal */}
       {showOTPModal && (
         <div className="modal-overlay" onClick={() => setShowOTPModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -265,7 +247,6 @@ const LanguageSwitcher = () => {
         </div>
       )}
 
-      {/* Mobile Number Update Modal */}
       {showMobileModal && (
         <div className="modal-overlay" onClick={() => setShowMobileModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -306,7 +287,6 @@ const LanguageSwitcher = () => {
         </div>
       )}
 
-      {/* Message Display */}
       {message && (
         <div className={`message ${message.includes('success') || message.includes('switched') ? 'success' : 'error'}`}>
           {message}
